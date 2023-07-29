@@ -1,0 +1,126 @@
+1).Solving problems using array functions on rest countries data (https://restcountries.com/v3.1/all).
+
+a).Get all the countries from Asia continent /region using Filter function
+b).Get all the countries with a population of less than 2 lakhs using Filter function
+c).Print the following details name, capital, flag using forEach function
+d).Print the total population of countries using reduce function
+e).Print the country which uses US Dollars as currency.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+a).Get all the countries from Asia continent /region using Filter function :-
+
+        var xhr = new XMLHttpRequest();
+        var url ="https://restcountries.com/v3.1/all";
+        var method = "GET";
+        xhr.open(method,url);
+        xhr.onload = function(){
+            if(xhr.status === 200){
+                var country = JSON.parse(xhr.responseText);
+                var result = country.filter((e) => e.region === "Asia");
+                console.log(result);
+            } else{
+                console.log("Request failed", xhr.status);
+            }
+        }
+        xhr.send();
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+b).Get all the countries with a population of less than 2 lakhs using Filter function :-
+
+
+       var xhr = new XMLHttpRequest();
+        var url ="https://restcountries.com/v3.1/all";
+        var method = "GET";
+        xhr.open(method,url);
+        xhr.onload = function(){
+            if(xhr.status === 200){
+                var country = JSON.parse(xhr.responseText);
+                var result = country.filter((e) => e.population<200000);
+                var name = result.map((e) => e.name.common);
+                console.log(result,name);
+            } else {
+                console.log("Request failed", xhr.status);
+            }
+        }
+        xhr.send();
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+c).Print the following details name, capital, flag using forEach function :-
+
+
+      var xhr = new XMLHttpRequest();
+        var url ="https://restcountries.com/v3.1/all";
+        var method = "GET";
+        xhr.open(method,url);
+        xhr.onload = function(){
+            if(xhr.status === 200){
+                var country = JSON.parse(xhr.responseText);
+                country.forEach(element => {
+                    console.log("The country name is:", element.name.common);
+                    console.log("Country Flag is:", element.flag);
+                    console.log("Capital of the country is:", element.capital);
+                });
+                 } else{
+                console.log("Request failed", xhr.status)
+            }
+        }
+        xhr.send();
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+d).Print the total population of countries using reduce function :-
+
+
+       var xhr = new XMLHttpRequest();
+        var url ="https://restcountries.com/v3.1/all";
+        var method = "GET";
+        xhr.open(method,url);
+        xhr.onload = function(){
+            if(xhr.status === 200){
+                var country = JSON.parse(xhr.responseText);
+                var result = country.reduce((acc, val) => acc+val.population,0);
+                console.log("The total country population is:",result);
+            } else{
+                console.log("Request failed", xhr.status)
+            }
+        }
+        xhr.send();
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+e).Print the country which uses US Dollars as currency :-
+
+
+
+        var xhr = new XMLHttpRequest();
+        var url ="https://restcountries.com/v3.1/all";
+        var method = "GET";
+        xhr.open(method,url);
+        xhr.onload = function(){
+            if(xhr.status === 200){
+                var country = JSON.parse(xhr.responseText);
+                for(var i=0; i<country.length; i++){
+                    if(country[i].currencies != undefined){
+                        Object.keys(country[i].currencies).forEach((key) => {
+                            if(key === "USD"){
+                                console.log(country[i].name.common,country[i].currencies[key]);
+                            }
+                        })
+                    }
+                }
+            } else{
+                console.log("Request failed", xhr.status);
+            }
+        }
+        xhr.send();
